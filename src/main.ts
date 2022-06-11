@@ -180,14 +180,14 @@ export default class ObsidianGit extends Plugin {
       this.displayMessage("Everything is up-to-date");
     }
 
-    if (this.gitManager instanceof SimpleGit) {
-      const status = await this.gitManager.status();
-      if (status.conflicted.length > 0) {
-        this.displayError(
-          `You have ${status.conflicted.length} conflict files`
-        );
-      }
-    }
+    // if (this.gitManager instanceof SimpleGit) {
+    //   const status = await this.gitManager.status();
+    //   if (status.conflicted.length > 0) {
+    //     this.displayError(
+    //       `You have ${status.conflicted.length} conflict files`
+    //     );
+    //   }
+    // }
     this.setState(PluginState.idle);
   }
 
@@ -207,18 +207,18 @@ export default class ObsidianGit extends Plugin {
       await this.app.vault.delete(file);
     }
 
-    if (this.gitManager instanceof SimpleGit) {
-      const status = await this.gitManager.status();
-      // check for conflict files on auto backup
-      if (fromAutoBackup && status.conflicted.length > 0) {
-        this.setState(PluginState.idle);
-        this.displayError(
-          `Did not commit, because you have ${status.conflicted.length} conflict files. Please resolve them and commit per command.`
-        );
-        this.handleConflict(status.conflicted);
-        return;
-      }
-    }
+    // if (this.gitManager instanceof SimpleGit) {
+    //   const status = await this.gitManager.status();
+    //   // check for conflict files on auto backup
+    //   if (fromAutoBackup && status.conflicted.length > 0) {
+    //     this.setState(PluginState.idle);
+    //     this.displayError(
+    //       `Did not commit, because you have ${status.conflicted.length} conflict files. Please resolve them and commit per command.`
+    //     );
+    //     this.handleConflict(status.conflicted);
+    //     return;
+    //   }
+    // }
 
     const changedFiles = (await this.gitManager.status()).changed;
 
@@ -251,19 +251,19 @@ export default class ObsidianGit extends Plugin {
         }
 
         let status: any;
-        if (
-          this.gitManager instanceof SimpleGit &&
-          (status = await this.gitManager.status()).conflicted.length > 0
-        ) {
-          this.displayError(
-            `Cannot push. You have ${status.conflicted.length} conflict files`
-          );
-          this.handleConflict(status.conflicted);
-          return;
-        } else {
-          const pushedFiles = await this.gitManager.push();
-          this.displayMessage(`Pushed ${pushedFiles} files to remote`);
-        }
+        // if (
+        //   this.gitManager instanceof SimpleGit &&
+        //   (status = await this.gitManager.status()).conflicted.length > 0
+        // ) {
+        //   this.displayError(
+        //     `Cannot push. You have ${status.conflicted.length} conflict files`
+        //   );
+        //   this.handleConflict(status.conflicted);
+        //   return;
+        // } else {
+        const pushedFiles = await this.gitManager.push();
+        this.displayMessage(`Pushed ${pushedFiles} files to remote`);
+        // }
       } else {
         this.displayMessage("No changes to push");
       }
