@@ -42,7 +42,6 @@ export class MyAdapter {
     // remove ignoring of all hidden files and just of . and .. and .git
     formattedAll = formattedAll.filter((item) => item != ".");
     formattedAll = formattedAll.filter((item) => item != "..");
-    formattedAll = formattedAll.filter((item) => !item.startsWith(".git"));
     formattedAll.remove("_git");
 
     return formattedAll;
